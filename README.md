@@ -5,7 +5,7 @@
 ## LABORATORIO DE COMPUTACIÓN GRÁFICA e INTERACCIÓN HUMANO COMPUTADORA
 
 - **Alumno:** Emiliano Garcia Olvera 
-- **No. de cta.:** 314256009
+- **No. de cuenta:** 314256009
 - **Grupo de laboratorio:** 13
 - **Grupo de Teoria:** 06 
 - **Semestre:** 2026-2 
