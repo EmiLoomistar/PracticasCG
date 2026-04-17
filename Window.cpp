@@ -125,34 +125,64 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 	}
 	theWindow->avanzando = false;
 	theWindow->retrocediendo = false;
-	if (key == GLFW_KEY_UP)
+	if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS)
 	{
-		theWindow->pos_x -= 1.0;
+		theWindow->pos_x -= 2.0;
 		theWindow->avanzando = true;
 		theWindow->retrocediendo = false;
 	}
-	else if (key == GLFW_KEY_DOWN)
+	else if (key == GLFW_KEY_LEFT && action == GLFW_PRESS)
 	{
-		theWindow->pos_x += 1.0;
+		theWindow->pos_x += 2.0;
 		theWindow->retrocediendo = true;
 		theWindow->avanzando = false;
 	}
-
+	if (key == GLFW_KEY_DOWN)
+	{
+		theWindow->pez_posicion -= 0.1;
+	}
+	if (key == GLFW_KEY_UP)
+	{
+		theWindow->pez_posicion += 0.1;
+	}
 
 	if (key == GLFW_KEY_F)
 	{
-		theWindow->articulation -= 5.0;
+		theWindow->articulation_x -= 5.0;
 	}
 	if (key == GLFW_KEY_G)
 	{
-		theWindow->articulation += 5.0;
+		theWindow->articulation_x += 5.0;
+	}
+	if (key == GLFW_KEY_H)
+	{
+		theWindow->articulation_y -= 5.0;
+	}
+	if (key == GLFW_KEY_J)
+	{
+		theWindow->articulation_y += 5.0;
+	}
+	if (key == GLFW_KEY_K)
+	{
+		theWindow->articulation_z -= 5.0;
+	}
+	if (key == GLFW_KEY_L)
+	{
+		theWindow->articulation_z += 5.0;
 	}
 	if (key == GLFW_KEY_Z) {
-		theWindow->is_pointlight_on = true;
-	}
-	if (key == GLFW_KEY_X) {
 		theWindow->is_pointlight_on = false;
 	}
+	if (key == GLFW_KEY_X) {
+		theWindow->is_pointlight_on = true;
+	}
+	if (key == GLFW_KEY_C) {
+		theWindow->is_pointlight2_on = false;
+	}
+	if (key == GLFW_KEY_V) {
+		theWindow->is_pointlight2_on = true;
+	}
+
 	if (key == GLFW_KEY_C && action == GLFW_PRESS) {
 		theWindow->counter = (theWindow->counter + 1) % 6;
 	}

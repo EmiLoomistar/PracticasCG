@@ -1,5 +1,5 @@
 /*
-Práctica 7: Iluminación 1 
+Práctica 8: Iluminación 2 
 */
 //para cargar imagen
 #define STB_IMAGE_IMPLEMENTATION
@@ -54,6 +54,11 @@ Model Llanta_M;
 Model Blackhawk_M;
 
 Model lamp_model;
+Model pecera_model;
+
+Model pez_antena_model;
+Model pez_cuerpo_model;
+Model pez_foco_model;
 
 Skybox skybox;
 
@@ -214,6 +219,14 @@ int main()
 
 	lamp_model = Model();
 	lamp_model.LoadModel("Models/redstone_lamp.obj");
+	pecera_model = Model();
+	pecera_model.LoadModel("Models/pecera.obj");
+	pez_antena_model = Model();
+	pez_antena_model.LoadModel("Models/antena_pez.obj");
+	pez_cuerpo_model = Model();
+	pez_cuerpo_model.LoadModel("Models/cuerpo_pez.obj");
+	pez_foco_model = Model();
+	pez_foco_model.LoadModel("Models/foco_pez.obj");
 	
 	std::vector<std::string> skyboxFaces;
 	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_rt.tga");
@@ -242,6 +255,13 @@ int main()
 		0.0f, 1.0f, 0.0,	// x y z
 		1.0f, 0.09f, 0.032f); // con lin exp
 	pointLightCount++;
+	// lamp point light
+	pointLights[1] = PointLight(
+		0.0f, 0.0f, 1.0f,	// r g b
+		0.5f, 1.0f,		// a d
+		-4.5f, 0.0f, -3.0,	// x y z
+		1.0f, 0.09f, 0.032f); // con lin exp
+	pointLightCount++;
 
 	unsigned int spotLightCount = 0;
 	//linterna
@@ -258,6 +278,15 @@ int main()
 		6.0f, 3.0f, // ambient diffuse
 		0.0f, 5.0f, 6.0f, // pos
 		0.0f, -1.0f, 0.0f, // dir
+		1.0f, 0.09f, 0.032f, // con lin exp
+		25.0f); // edge location
+	spotLightCount++;
+
+	// luz bulbo (spotlight)
+	spotLights[2] = SpotLight(1.0f, 0.0f, 0.0f, // rgb
+		6.0f, 3.0f, // ambient diffuse
+		-16.5f, 1.2f, -2.5, // pos
+		0.0f, 0.0f, 1.0f, // dir
 		1.0f, 0.09f, 0.032f, // con lin exp
 		25.0f); // edge location
 	spotLightCount++;
@@ -336,6 +365,8 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		lamp_model.RenderModel();
 
+
+		// ejercicio 1
 		if (mainWindow.get_retrocediendo()) {
 			spotLights[1].SetFlash(glm::vec3(-0.1f + mainWindow.get_pos_x(), 4.75f, 6.0), glm::vec3(0.5f, -1.0f, 0.0f));
 		}
@@ -343,7 +374,6 @@ int main()
 			spotLights[1].SetFlash(glm::vec3(-0.1f + mainWindow.get_pos_x(), 4.75f, 6.0), glm::vec3(-0.5f, -1.0f, 0.0f));
 		}
 		else spotLights[1].SetFlash(glm::vec3(-0.1f + mainWindow.get_pos_x(), 4.75f, 6.0), glm::vec3(0.f, -1.0f, 0.0f));
-
 		// helicoptero
 		spotLights[1].SetPos(glm::vec3(-0.1f + mainWindow.get_pos_x(), 4.75f, 6.0));
 		model = glm::mat4(1.0);
@@ -353,6 +383,155 @@ int main()
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Blackhawk_M.RenderModel();
+
+		// ejercicio 2
+		// pez cuerpo
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-6.5f, 0.0f+ mainWindow.get_pez_posicion(), -3.0 + mainWindow.get_pez_posicion()));
+		model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+		modelaux = model;
+		color = glm::vec3(1.0f, 1.0f, 1.0f);
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		pez_cuerpo_model.RenderModel();
+		// pez antena
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(0.0f, 5.0f, 0.0f));
+		modelaux = model;
+		color = glm::vec3(1.0f, 1.0f, 1.0f);
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		pez_antena_model.RenderModel();
+		// pez foco
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(0.0f, 9.0f, 7.0f));
+		modelaux = model;
+		color = glm::vec3(1.0f, 1.0f, 1.0f);
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		pez_foco_model.RenderModel();
+		// pecera
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-7.0f, 2.5f, -3.0));
+		model = glm::scale(model, glm::vec3(4.0f, 4.0f, 4.0f));
+		color = glm::vec3(1.0f, 1.0f, 1.0f);
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//blending: transparencia o traslucidez
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glDepthMask(GL_FALSE);
+		glEnable(GL_POLYGON_OFFSET_FILL);
+		glPolygonOffset(-1.0f, -1.0f);
+		Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		// back faces
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_FRONT);
+		pecera_model.RenderModel();
+		// front faces
+		glCullFace(GL_BACK);
+		pecera_model.RenderModel();
+		glDepthMask(GL_TRUE);
+		glDisable(GL_BLEND);
+		glDisable(GL_POLYGON_OFFSET_FILL);
+		glDisable(GL_CULL_FACE);
+
+		// ejercicio 3
+		// prender apagar lampara
+		if (!mainWindow.get_is_pointlight_on() && !mainWindow.get_is_pointlight2_on()) {
+			pointLightCount = 0;
+		}
+		else if (mainWindow.get_is_pointlight_on() && !mainWindow.get_is_pointlight2_on()) {
+			pointLightCount = 1;
+			pointLights[0] = PointLight(
+				1.0f, 1.0f, 1.0f,	// r g b
+				0.5f, 1.0f,		// a d
+				0.0f, 1.0f, 0.0,	// x y z
+				1.0f, 0.09f, 0.032f); // con lin exp
+		}
+		else if (!mainWindow.get_is_pointlight_on() && mainWindow.get_is_pointlight2_on()) {
+			pointLightCount = 1;
+			pointLights[0] = PointLight(
+				0.0f, 0.0f, 1.0f,	// r g b
+				0.5f, 1.0f,		// a d
+				-6.5f, 0.0f, -3.0,	// x y z
+				1.0f, 0.09f, 0.032f); // con lin exp
+		}
+		else if (mainWindow.get_is_pointlight_on() && mainWindow.get_is_pointlight2_on())
+		{
+			pointLightCount = 2;
+			pointLights[0] = PointLight(
+				1.0f, 1.0f, 1.0f,	// r g b
+				0.5f, 1.0f,		// a d
+				0.0f, 1.0f, 0.0,	// x y z
+				1.0f, 0.09f, 0.032f); // con lin exp
+			pointLights[1] = PointLight(
+				0.0f, 0.0f, 1.0f,	// r g b
+				0.5f, 1.0f,		// a d
+				-6.5f, 0.0f, -3.0,	// x y z
+				1.0f, 0.09f, 0.032f); // con lin exp
+		}
+
+		// ejercicio 4
+		// pez cuerpo
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-16.5f, 0.0f, -3.0));
+		model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+		modelaux = model;
+		color = glm::vec3(1.0f, 1.0f, 1.0f);
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		pez_cuerpo_model.RenderModel();
+		// pez antena
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(0.0f, 5.0f, 0.0f));
+		modelaux = model;
+		color = glm::vec3(1.0f, 1.0f, 1.0f);
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		pez_antena_model.RenderModel();
+		// pez foco
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(0.0f, 9.0f, 7.0f));
+		glm::mat4 model_rot(1.0); 
+		model_rot = glm::rotate(model, 270 * toRadians, glm::vec3(1.0f, 1.0f, 0.0f));
+		model_rot = glm::rotate(model_rot, mainWindow.get_articulation_x() * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model_rot = glm::rotate(model_rot, mainWindow.get_articulation_y() * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model_rot = glm::rotate(model_rot, mainWindow.get_articulation_z() * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		glm::vec3 bulb_dir = glm::normalize(glm::vec3(model_rot * glm::vec4(1.0f, 1.0f, 1.0f, 0.0f)));
+		model = model_rot;
+		spotLights[2].SetFlash(glm::vec3(-16.5f, 1.3f, -2.2), bulb_dir);
+		color = glm::vec3(1.0f, 1.0f, 1.0f);
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		pez_foco_model.RenderModel();
+		modelaux = model;
+		// pecera
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-17.0f, 2.5f, -3.0));
+		model = glm::scale(model, glm::vec3(4.0f, 4.0f, 4.0f));
+		color = glm::vec3(1.0f, 1.0f, 1.0f);
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//blending: transparencia o traslucidez
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glDepthMask(GL_FALSE);
+		glEnable(GL_POLYGON_OFFSET_FILL);
+		glPolygonOffset(-1.0f, -1.0f);
+		Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		// back faces
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_FRONT);
+		pecera_model.RenderModel();
+		// front faces
+		glCullFace(GL_BACK);
+		pecera_model.RenderModel();
+		glDepthMask(GL_TRUE);
+		glDisable(GL_BLEND);
+		glDisable(GL_POLYGON_OFFSET_FILL);
+		glDisable(GL_CULL_FACE);
+
 
 
 		glUseProgram(0);
