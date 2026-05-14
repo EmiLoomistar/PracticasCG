@@ -13,14 +13,13 @@ public:
 	GLfloat getBufferHeight() { return bufferHeight; }
 	GLfloat getXChange();
 	GLfloat getYChange();
-	GLfloat get_is_pointlight_on() { return is_pointlight_on;  };
-	GLfloat get_articulation() { return articulation; };
+	GLfloat get_engranemovadicionalX() { return engranemovadicionalX; };
+	GLfloat get_objetomovadicionalX() { return objetomovadicionalX; };
 	GLfloat getmuevex() { return muevex; }
 	GLfloat get_pos_z() { return pos_z; }
 	GLfloat get_pos_x() { return pos_x; }
-	bool get_avanzando() { return avanzando; };
-	bool get_retrocediendo() { return retrocediendo; };
-	int get_counter() { return counter; }
+	bool get_reset() { return reset; }
+	void set_reset_false() { reset = false; }
 	bool getShouldClose() {
 		return  glfwWindowShouldClose(mainWindow);}
 	bool* getsKeys() { return keys; }
@@ -40,12 +39,10 @@ private:
 	GLfloat muevex;
 	GLfloat pos_z;
 	GLfloat pos_x;
-	GLfloat articulation;
-	bool avanzando = false;
-	bool retrocediendo = false;
+	GLfloat engranemovadicionalX = 0.0f;
+	GLfloat objetomovadicionalX = 0.0f;
+	bool reset;
 	bool mouseFirstMoved;
-	bool is_pointlight_on = false;
-	int counter;
 	static void ManejaTeclado(GLFWwindow* window, int key, int code, int action, int mode);
 	static void ManejaMouse(GLFWwindow* window, double xPos, double yPos);
 

@@ -16,7 +16,6 @@ Window::Window(GLint windowWidth, GLint windowHeight)
 	muevex = 2.0f;
 	pos_z = 0.0f;
 	pos_x = 0.0f;
-	articulation = 0.0f;
 	for (size_t i = 0; i < 1024; i++)
 	{
 		keys[i] = 0;
@@ -39,7 +38,7 @@ int Window::Initialise()
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
 	//CREAR VENTANA
-	mainWindow = glfwCreateWindow(width, height, "Emi Garo presents Practica 08: Iluminacion 2", NULL, NULL);
+	mainWindow = glfwCreateWindow(width, height, "Práctica 10: Animación por Keyframes", NULL, NULL);
 
 	if (!mainWindow)
 	{
@@ -107,55 +106,25 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 	{
 		glfwSetWindowShouldClose(window, GL_TRUE);
 	}
-	if (key == GLFW_KEY_Y)
+
+	if (key == GLFW_KEY_Z)
 	{
-		theWindow-> muevex += 1.0;
+		theWindow->engranemovadicionalX -= 5.0;
 	}
-	if (key == GLFW_KEY_U)
+	if (key == GLFW_KEY_X)
 	{
-		theWindow-> muevex -= 1.0;
+		theWindow->engranemovadicionalX += 5.0;
 	}
-	if (key == GLFW_KEY_RIGHT)
+	if (key == GLFW_KEY_C)
 	{
-		theWindow->pos_z += 1.0;
+		theWindow->objetomovadicionalX -= 5.0;
 	}
-	if (key == GLFW_KEY_LEFT)
+	if (key == GLFW_KEY_V)
 	{
-		theWindow->pos_z -= 1.0;
-	}
-	theWindow->avanzando = false;
-	theWindow->retrocediendo = false;
-	if (key == GLFW_KEY_UP)
-	{
-		theWindow->pos_x -= 1.0;
-		theWindow->avanzando = true;
-		theWindow->retrocediendo = false;
-	}
-	else if (key == GLFW_KEY_DOWN)
-	{
-		theWindow->pos_x += 1.0;
-		theWindow->retrocediendo = true;
-		theWindow->avanzando = false;
+		theWindow->objetomovadicionalX += 5.0;
 	}
 
 
-	if (key == GLFW_KEY_F)
-	{
-		theWindow->articulation -= 5.0;
-	}
-	if (key == GLFW_KEY_G)
-	{
-		theWindow->articulation += 5.0;
-	}
-	if (key == GLFW_KEY_Z) {
-		theWindow->is_pointlight_on = true;
-	}
-	if (key == GLFW_KEY_X) {
-		theWindow->is_pointlight_on = false;
-	}
-	if (key == GLFW_KEY_C && action == GLFW_PRESS) {
-		theWindow->counter = (theWindow->counter + 1) % 6;
-	}
 
 	if (key >= 0 && key < 1024)
 	{
